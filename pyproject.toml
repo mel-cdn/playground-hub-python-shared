@@ -1,0 +1,67 @@
+    # -----------------------------
+    # Project Metadata
+    # -----------------------------
+    [project]
+    name = "phub-python-shared"
+    version = "0.0.0"
+    description = "Python Shared Utilities for Playground Hub"
+    readme = { file = "README.md", content-type = "text/markdown" }
+    authors = [
+        { name = "Mel Cadano", email = "mel.cdn@outlook.ph" }
+    ]
+
+# -----------------------------
+# Build system
+# -----------------------------
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
+# -----------------------------
+# Project Dependencies
+# -----------------------------
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+ulid = "==1.1"
+
+# -----------------------------
+# Dev Dependencies
+# -----------------------------
+[tool.poetry.group.dev.dependencies]
+pytest = "==9.0.3"
+python-semantic-release = "==10.5.3"
+
+# -----------------------------
+# Semantic Release Configuration
+# -----------------------------
+[tool.semantic_release]
+# Commit Configurations
+vcs = "bitbucket"
+branch = "main"
+allow_zero_version = true
+changelog_file = "CHANGELOG.md"
+commit_message = "✨ Bump to version {version} [skip ci]"
+commit_parser = "conventional"
+tag_format = "v{version}"
+
+# For the CHANGELOG.MD builder
+repository_author = "mello-world"
+repository_name = "phub-python-shared"
+
+version_toml = [
+    "pyproject.toml:project.version",
+]
+
+[tool.semantic_release.remote]
+name = "origin"
+type = "bitbucket"
+
+# For Version Tagging
+[tool.semantic_release.commit_parser_options]
+patch_tags = ["fix", "chore", "docs", "style", "refactor", "test"]
+minor_tags = ["feat"]
+major_tags = ["feat!"]
