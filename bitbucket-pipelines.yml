@@ -1,0 +1,25 @@
+image: python:3.12
+
+definitions:
+  steps:
+    - step: &lint-and-tests
+        name: Unit Tests
+        script:
+          - pip install poetry
+          - poetry install --no-root
+          - poetry run python -m pytest
+
+    - step: &bump-version
+        name: Bump Version
+        script:
+          - pip install python-semantic-release==10.5.3
+          - export BITBUCKET_TOKEN=$BITBUCKET_BOT_TOKEN
+          - git remote set-url origin "https://x-token-auth:${BITBUCKET_TOKEN}@bitbucket.org/${BITBUCKET_REPO_FULL_NAME}.git"
+          - PYTHONPATH="${PWD}" semantic-release version
+
+pipelines:
+  # Runs when code hits the main branch
+  branches:
+    main:
+      - step: *lint-and-tests
+      - step: *bump-version

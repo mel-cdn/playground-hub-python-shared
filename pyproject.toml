@@ -44,6 +44,7 @@ vcs = "bitbucket"
 branch = "main"
 allow_zero_version = true
 changelog_file = "CHANGELOG.md"
+commit_author = "Version Crafter <y1qvnblznuaapeboc86b0w62qhkuj0@bots.bitbucket.org>"
 commit_message = "✨ Bump to version {version} [skip ci]"
 commit_parser = "conventional"
 tag_format = "v{version}"
