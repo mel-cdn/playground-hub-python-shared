@@ -17,9 +17,52 @@ definitions:
           - git remote set-url origin "https://x-token-auth:${BITBUCKET_TOKEN}@bitbucket.org/${BITBUCKET_REPO_FULL_NAME}.git"
           - PYTHONPATH="${PWD}" semantic-release version
 
+    - step: &publish
+        name: Publish to CodeArtifact
+        script:
+          # Install dependencies
+          - apt-get update -qq && apt-get install -y -qq jq
+          - pip install awscli==1.45.25 poetry==2.4.1
+
+          # Preparing CodeArtifact repository
+          - |
+            AUTH_TOKEN=$(
+              aws codeartifact get-authorization-token \
+              --domain "playground-hub" \
+              --domain-owner $AWS_ACCOUNT_ID \
+              --region $AWS_DEFAULT_REGION \
+              --query 'authorizationToken' \
+              --output text
+            )            
+            REPO_URL=$(
+              aws codeartifact get-repository-endpoint \
+              --domain "playground-hub" \
+              --domain-owner $AWS_ACCOUNT_ID \
+              --region $AWS_DEFAULT_REGION \
+              --repository "phub-python-shared" \
+              --format pypi \
+              --query 'repositoryEndpoint' \
+              --output text
+            )
+
+          # Building and push package
+          - |
+            poetry build
+            poetry config repositories.phub-python-shared "$REPO_URL"
+            poetry config http-basic.phub-python-shared aws "$AUTH_TOKEN"
+            poetry publish -r phub-python-shared
+
 pipelines:
-  # Runs when code hits the main branch
+  # A. Runs on every branch EXCEPT main
+  default:
+    - step: *lint-and-tests
+
+  # B. Runs ONLY when code hits the main branch
   branches:
     main:
-      - step: *lint-and-tests
       - step: *bump-version
+
+  # C. Runs ONLY when there's a new tag with vX.X.X format
+  tags:
+    'v*.*.*':
+      - step: *publish
