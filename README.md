@@ -6,6 +6,8 @@ with **auto version bumping via Bitbucket pipelines**.
 If you are into deployment pipelines, check it
 out [here](https://dev.to/melcdn/automate-python-package-releases-semantic-release-aws-codeartifact-poetry-and-bitbucket-pipelines-95m).
 
+![Pipeline](assets/pipeline.jpg)
+
 ## 🚀 Getting Started
 
 ### Prerequisites
