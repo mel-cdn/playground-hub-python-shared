@@ -1,14 +1,14 @@
-    # -----------------------------
-    # Project Metadata
-    # -----------------------------
-    [project]
-    name = "phub-python-shared"
-    version = "0.1.0"
-    description = "Python Shared Utilities for Playground Hub"
-    readme = { file = "README.md", content-type = "text/markdown" }
-    authors = [
-        { name = "Mel Cadano", email = "mel.cdn@outlook.ph" }
-    ]
+# -----------------------------
+# Project Metadata
+# -----------------------------
+[project]
+name = "phub-python-shared"
+version = "0.1.0"
+description = "Python Shared Utilities for Playground Hub"
+readme = { file = "README.md", content-type = "text/markdown" }
+authors = [
+    { name = "Mel Cadano", email = "mel.cdn@outlook.ph" }
+]
 
 # -----------------------------
 # Build system
